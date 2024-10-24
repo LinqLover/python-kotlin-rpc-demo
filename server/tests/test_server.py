@@ -61,14 +61,14 @@ class TestServer(TestCase):
     ])
     def test_integration(self, test_data, expected_alive):
         for (_input, expected_output) in test_data:
-            self.assertIsNone(self.process.poll(), 'process should be alive')
+            self.assertIsNone(self.process.poll(), "process should be alive")
             self.process.stdin.write((_input + "\n").encode('utf-8'))
             self.process.stdin.flush()
             if expected_output is not None:
                 actual_output = self.process.stdout.readline().decode('utf-8')
                 self.assertEqual(expected_output + "\n", actual_output)
         if expected_alive:
-            self.assertIsNone(self.process.poll(), 'process should be alive')
+            self.assertIsNone(self.process.poll(), "process should be alive")
         else:
             self.process.wait(timeout=5)
             self.assertEqual(self.process.poll(), 0)
