@@ -39,6 +39,7 @@ class Client(private val serverPath: String) {
      *
      * @param T The return value of the block.
      */
+    @OptIn(DelicateCoroutinesApi::class)
     suspend fun <T>runProcess(block: suspend () -> T): T {
         val processBuilder = ProcessBuilder(serverPath)
         if (logger.isDebugEnabled()) {

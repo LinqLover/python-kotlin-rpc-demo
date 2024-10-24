@@ -6,7 +6,6 @@
 
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
         <!-- Avoid out-of-sync logging with server logs -->
-        <synchronizationPolicy class="ch.qos.logback.core.spi.SynchronizedAppenderBase" />
         <immediateFlush>true</immediateFlush>
         <encoder>
             <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
