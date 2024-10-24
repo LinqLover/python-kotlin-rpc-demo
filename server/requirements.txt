@@ -1,0 +1,4 @@
+#nameof==0.0.1
+git+https://github.com/LinqLover/nameof.git@new-master#egg=nameof  # bugfix for python3.12 not yet merged (https://github.com/alexmojaki/nameof/pull/3)
+parameterized==0.9.0
+flake8==7.1.1
