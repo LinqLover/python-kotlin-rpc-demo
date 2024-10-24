@@ -1,11 +1,8 @@
 package rpc_demo.client
 
 import io.github.oshai.kotlinlogging.KotlinLogging
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.*
 import kotlinx.coroutines.time.withTimeout
-import kotlinx.coroutines.withContext
 import java.io.BufferedReader
 import java.io.PrintWriter
 import kotlin.time.Duration
@@ -52,11 +49,9 @@ class Client(private val serverPath: String) {
         }
         if (logger.isDebugEnabled()) {
             // manually forward stderr without buffering to synchronize with our ow nlogs
-            runBlocking {
-                launch {
-                    process!!.errorStream.reader().use { reader ->
-                        reader.forEachLine { println("server: $it") }
-                    }
+            GlobalScope.launch {
+                process!!.errorStream.reader().use { reader ->
+                    reader.forEachLine { logger.debug { "server: $it" } }
                 }
             }
         }
