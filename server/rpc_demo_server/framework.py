@@ -34,9 +34,10 @@ class Server:
         try:
             while alive:
                 command = input()
-                logging.info("Received command: %s", command)
+                logging.debug("Received command: %s", command)
                 try:
                     result = self.call(command)
+                    logging.debug("Responding: %s", result)
                     if logging.root.isEnabledFor(logging.ERROR):
                         # avoid out-of-sync logs
                         sys.stderr.flush()
