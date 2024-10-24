@@ -1,4 +1,5 @@
 import logging
+import sys
 
 
 class Server:
@@ -36,6 +37,9 @@ class Server:
                 logging.info("Received command: %s", command)
                 try:
                     result = self.call(command)
+                    if logging.root.isEnabledFor(logging.ERROR):
+                        # avoid out-of-sync logs
+                        sys.stderr.flush()
                     print(result, flush=True)
                 except KeyError:
                     logging.error("Unknown command received, skipping.")
