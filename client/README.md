@@ -3,7 +3,7 @@
 ## Requirements
 
 - Java 21, Kotlin 2.0, Gradle 8.10
-- A compatible [`rpcdemo_server`](../rpcdemo_server)
+- A compatible [`rpcdemo_server`](../server)
 
 ## Running
 
