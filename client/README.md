@@ -42,4 +42,4 @@ ktlint
   - [`Client.kt`](./app/src/main/kotlin/rpcdemo/client/Client.kt): Runs the server and calls procedures.
   - [`Controller.kt`](./app/src/main/kotlin/rpcdemo/client/Controller.kt): Business logic for retrieving and analyzing random numbers; main entry point.
 - [`app/src/main/resources/logback.xml`](./app/src/main/resources/logback.xml): Logging config.
-- [`app/test/kotlin/rpcdemo/client/`](./app/test/kotlin/rpcdemo/client/): Non-exhaustive unit tests.
+- [`app/src/test/kotlin/rpcdemo/client/`](./app/src/test/kotlin/rpcdemo/client/): Non-exhaustive unit tests.
