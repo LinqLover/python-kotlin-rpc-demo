@@ -33,4 +33,5 @@ On Windows, you could use `gradlew.bat` instead and provide a path to an executa
 - [`app/src/main/kotlin/rpc_demo/client/`](./app/src/main/kotlin/rpc_demo/client/):
   - [`Client.kt`](./app/src/main/kotlin/rpc_demo/client/Client.kt): Runs the server and calls procedures.
   - [`Controller.kt`](./app/src/main/kotlin/rpc_demo/client/Controller.kt): Business logic for retrieving and analyzing random numbers; main entry point.
+- [`app/src/main/resources/logback.xml`](./app/src/main/resources/logback.xml): Logging config.
 - [`app/test/kotlin/rpc_demo/client/`](./app/test/kotlin/rpc_demo/client/): Non-exhaustive unit tests.
