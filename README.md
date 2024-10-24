@@ -23,7 +23,8 @@ If you do not want to set up everything manually, you can instead read the CI lo
 
 - `server-tests`: Non-exhaustive integration tests for the server
 - `client-tests`: Non-exhaustive unit tests for the client
-- `lint-server`: PEP8 coding style checking for server
+- `server-lint`: PEP8 coding style checking for server
+- `client-lint`: ktlint style checking for client
 - `integration-test`: Smoke tests for running both server and client together in different configurations.
 
 See [`.github/workflows/ci.yml`](./.github/workflows/ci.yml) for more details.

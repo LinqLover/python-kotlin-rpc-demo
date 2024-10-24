@@ -31,6 +31,10 @@ On Windows, you could use `gradlew.bat` instead and provide a path to an executa
 
 Get [ktlint](https://pinterest.github.io/ktlint/latest/).
 
+```
+ktlint
+```
+
 ## Package Structure
 
 - [`app/build.gradle.kts`](./app/build.gradle.kts): Build configuration for dependencies and command line arguments.
