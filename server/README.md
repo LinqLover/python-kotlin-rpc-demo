@@ -1,4 +1,4 @@
-# rpc_demo_server
+# rpcdemo_server
 
 ## Setup
 
@@ -28,7 +28,7 @@ options:
   --seed SEED
 ```
 
-On Windows, you can run `python -m rpc_demo_server` manually instead.
+On Windows, you can run `python -m rpcdemo_server` manually instead.
 
 ## Testing
 
@@ -44,8 +44,8 @@ python -m flake8
 
 ## Package Structure
 
-- [`rpc_demo_server/`](./rpc_demo_server/):
-  - [`framework`](./rpc_demo_server/framework.py): General logic for servers that can expose procedures.
-  - [`random_server.py`](./rpc_demo_server/random_server.py): Server that generates pseudo-random numbers.
-  - [`simple.py`](./rpc_demo_server/simple.py): Alternative minimal implementation of the random server without any supportability concerns.
+- [`rpcdemo_server/`](./rpcdemo_server/):
+  - [`framework`](./rpcdemo_server/framework.py): General logic for servers that can expose procedures.
+  - [`random_server.py`](./rpcdemo_server/random_server.py): Server that generates pseudo-random numbers.
+  - [`simple.py`](./rpcdemo_server/simple.py): Alternative minimal implementation of the random server without any supportability concerns.
 - [`tests/`](./tests/): Non-exhaustive integration tests.

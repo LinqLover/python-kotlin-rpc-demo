@@ -1,6 +1,6 @@
 #!/usr/bin/env python3.12
 """
-This is a minimal implementation of the rpc_demo_server that favors simplicity
+This is a minimal implementation of the rpcdemo_server that favors simplicity
 over advanced concerns such as extensibility, robustness, and observability.
 """
 from random import randint

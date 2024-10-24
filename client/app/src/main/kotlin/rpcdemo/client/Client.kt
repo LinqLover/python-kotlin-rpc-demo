@@ -1,7 +1,8 @@
-package rpc_demo.client
+package rpcdemo.client
 
 import io.github.oshai.kotlinlogging.KotlinLogging
 import kotlinx.coroutines.*
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.time.withTimeout
 import java.io.BufferedReader
 import java.io.PrintWriter
@@ -16,7 +17,9 @@ private val logger = KotlinLogging.logger {}
  *
  * @param serverPath Path to an executable server file.
  */
-class Client(private val serverPath: String) {
+class Client(
+    private val serverPath: String,
+) {
     companion object {
         /**
          * Runs a server process and use a client to interact with it through the block argument.
@@ -24,7 +27,10 @@ class Client(private val serverPath: String) {
          * @param T The return value of the block.
          * @param serverPath Path to an executable server file.
          */
-        suspend fun <T>runProcess(serverPath: String, block: suspend (Client) -> T): T {
+        suspend fun <T> runProcess(
+            serverPath: String,
+            block: suspend (Client) -> T,
+        ): T {
             val client = Client(serverPath)
             return client.runProcess { block(client) }
         }
@@ -40,14 +46,15 @@ class Client(private val serverPath: String) {
      * @param T The return value of the block.
      */
     @OptIn(DelicateCoroutinesApi::class)
-    suspend fun <T>runProcess(block: suspend () -> T): T {
+    suspend fun <T> runProcess(block: suspend () -> T): T {
         val processBuilder = ProcessBuilder(serverPath)
         if (logger.isDebugEnabled()) {
             processBuilder.command(processBuilder.command() + "--log-level=DEBUG")
         }
-        process = withContext(Dispatchers.IO) {
-            processBuilder.start()
-        }
+        process =
+            withContext(Dispatchers.IO) {
+                processBuilder.start()
+            }
         if (logger.isDebugEnabled()) {
             // manually forward stderr without buffering to synchronize with our ow nlogs
             GlobalScope.launch {
@@ -92,8 +99,12 @@ class Client(private val serverPath: String) {
      * @throws IllegalStateException If the process is not initialized or has died.
      */
     fun exec(command: String) {
-        if (process == null) { throw IllegalStateException("Process is not initialized") }
-        if (!process!!.isAlive) { throw IllegalStateException("Process has died") }
+        if (process == null) {
+            throw IllegalStateException("Process is not initialized")
+        }
+        if (!process!!.isAlive) {
+            throw IllegalStateException("Process has died")
+        }
         logger.debug { "Sending command: $command" }
         writer!!.println(command)
     }
@@ -106,11 +117,15 @@ class Client(private val serverPath: String) {
      * @return The response string from the server.
      * @throws kotlinx.coroutines.TimeoutCancellationException If a timeout occurs or reading the response fails.
      */
-    suspend fun call(command: String, timeout: Duration = 5.seconds): String {
+    suspend fun call(
+        command: String,
+        timeout: Duration = 5.seconds,
+    ): String {
         exec(command)
 
         return withTimeout(timeout.toJavaDuration()) {
-            withContext(Dispatchers.IO) { // Do not block main thread
+            withContext(Dispatchers.IO) {
+                // Do not block main thread
                 reader!!.readLine()
             }
         }.also { response ->

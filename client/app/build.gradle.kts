@@ -14,7 +14,7 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.1")
 
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.10.0")
-    testImplementation("org.jetbrains.kotlin:kotlin-test-junit5:1.8.0")  // for Kotlin test DSL
+    testImplementation("org.jetbrains.kotlin:kotlin-test-junit5:1.8.0") // for Kotlin test DSL
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.10.0")
 
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
@@ -27,7 +27,7 @@ java {
 }
 
 application {
-    mainClass = "rpc_demo.client.ControllerKt"
+    mainClass = "rpcdemo.client.ControllerKt"
 }
 
 tasks.named<JavaExec>("run") {

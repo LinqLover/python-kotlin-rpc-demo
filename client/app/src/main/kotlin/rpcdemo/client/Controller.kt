@@ -1,7 +1,6 @@
-package rpc_demo.client
+package rpcdemo.client
 
 import io.github.oshai.kotlinlogging.KotlinLogging
-import kotlinx.coroutines.coroutineScope
 import java.io.IOException
 import java.lang.NumberFormatException
 import kotlin.system.exitProcess
@@ -11,7 +10,9 @@ private val logger = KotlinLogging.logger {}
 /**
  * A controller that uses a client to retrieve and analyze random numbers.
  */
-class Controller(private val client: Client) {
+class Controller(
+    private val client: Client,
+) {
     /**
      * Run the business logic.
      */
@@ -35,21 +36,20 @@ class Controller(private val client: Client) {
 
     private suspend fun greet() {
         val response = client.call("Hi")
-        if(response != "Hi") {
+        if (response != "Hi") {
             logger.warn { "Greeting handshake with server failed! Continuing anyway..." }
         }
     }
 
-    private suspend fun getRandomNumbers(number: Int): List<Int> {
-        return List(number) {
+    private suspend fun getRandomNumbers(number: Int): List<Int> =
+        List(number) {
             val result = client.call("GetRandom")
             try {
                 result.toInt()
-            } catch (exception: NumberFormatException)  {
+            } catch (exception: NumberFormatException) {
                 throw IllegalStateException("Server returned invalid data: $result")
             }
         }
-    }
 
     private fun shutDown() {
         client.exec("Shutdown")

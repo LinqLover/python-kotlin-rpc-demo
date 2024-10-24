@@ -1,4 +1,4 @@
-package rpc_demo.client
+package rpcdemo.client
 
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
