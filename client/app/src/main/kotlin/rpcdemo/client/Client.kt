@@ -56,7 +56,8 @@ class Client(
                 processBuilder.start()
             }
         if (logger.isDebugEnabled()) {
-            // manually forward stderr without buffering to synchronize with our ow nlogs
+            // manually forward stderr without buffering to synchronize with our own logs
+            // GlobalScope is acceptable here because the lifetime is limited to that of the process
             GlobalScope.launch {
                 process!!.errorStream.reader().use { reader ->
                     reader.forEachLine { logger.debug { "server: $it" } }

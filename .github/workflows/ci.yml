@@ -98,6 +98,6 @@ jobs:
         run: |
           (cd client && ./gradlew run -PserverPath=../server/rpcdemo_server/simple.py)
 
-      - name: Run server with debug logging
+      - name: Run server-client combination with debug logging
         run: |
           (cd client && ./gradlew run -PlogLevel=DEBUG)

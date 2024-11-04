@@ -48,7 +48,7 @@ class TestServer(TestCase):
             ],
             False
         ),
-        # Test 1: Invalid commands
+        # Test 2: Invalid commands
         (
             [
                 ('Hi', 'Hi'),
