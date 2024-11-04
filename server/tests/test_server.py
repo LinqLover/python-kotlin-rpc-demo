@@ -24,7 +24,7 @@ class TestServer(TestCase):
                 f'--min-value={MIN_VALUE}',
                 f'--max-value={MAX_VALUE}',
                 f'--seed={SEED}',
-                '--log-level=INFO',
+                '--log-level=DEBUG',
             ],
             cwd=os.path.dirname(os.path.dirname(__file__)),
             stdin=subprocess.PIPE,
