@@ -16,7 +16,5 @@ if __name__ == '__main__':
     args = parser.parse_args()
     logging.basicConfig(level=args.log_level)
 
-    server = RandomServer(args.seed)
-    server.min_value = args.min_value
-    server.max_value = args.max_value
+    server = RandomServer(args.seed, args.min_value, args.max_value)
     server.run_stdio()

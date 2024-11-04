@@ -6,12 +6,13 @@ class RandomServer(Server):
     """
     A server that generates pseudo-random numbers.
     """
-    def __init__(self, seed=None):
+    def __init__(self, seed=None, min_value=0, max_value=255):
         super().__init__()
+        if min_value > max_value:
+            raise ValueError("min_value must be smaller or equal to max_value")
         self.random = Random(seed)
-
-    min_value = 0
-    max_value = 255
+        self.min_value = min_value
+        self.max_value = max_value
 
     @Server._procedure("Hi")
     def greet(self):
