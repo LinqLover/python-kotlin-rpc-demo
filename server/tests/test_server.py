@@ -7,8 +7,8 @@ from unittest import TestCase
 
 # constants for tests
 MIN_VALUE = 0
-MAX_VALUE = 0
-SEED = 0
+MAX_VALUE = 1000
+SEED = 123
 
 _random = Random(SEED)
 RANDOM_VALUES = [_random.randint(MIN_VALUE, MAX_VALUE) for _ in range(10)]
