@@ -13,13 +13,18 @@ private val logger = KotlinLogging.logger {}
 class Controller(
     private val client: Client,
 ) {
+    private var success = false
+
     /**
      * Run the business logic.
+     * 
+     * @return A boolean indicating whether the server behaved as expected.
      */
-    suspend fun run() {
+    suspend fun run(): Boolean {
+        success = true
         var numbers: List<Int>
         try {
-            greet()
+            success = success and greet()
             numbers = getRandomNumbers(100)
         } finally {
             shutDown()
@@ -32,12 +37,19 @@ class Controller(
         val average = numbers.average()
         println("Median: $median")
         println("Average: $average")
+
+        return success
     }
 
-    private suspend fun greet() {
+    /**
+     * @return A boolean indicating whether the greeting handshake was performed correctly.
+     */
+    private suspend fun greet(): Boolean {
         val response = client.call("Hi")
-        if (response != "Hi") {
-            logger.warn { "Greeting handshake with server failed! Continuing anyway..." }
+        return (response == "Hi").also { it ->
+            if (!it) {
+                logger.warn { "Greeting handshake with server failed! Continuing anyway..." }
+            }
         }
     }
 
@@ -65,8 +77,12 @@ suspend fun main(args: Array<String>) {
     val serverPath = args[0]
 
     try {
-        Client.runProcess(serverPath) { client ->
+        var success = Client.runProcess(serverPath) { client ->
             Controller(client).run()
+        }
+        if (!success) {
+            println("Server behaved unexpected")
+            exitProcess(1)
         }
     } catch (exception: IOException) {
         logger.error { "Could not run server: $exception" }
