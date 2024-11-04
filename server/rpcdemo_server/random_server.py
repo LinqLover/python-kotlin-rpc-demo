@@ -14,14 +14,14 @@ class RandomServer(Server):
         self.min_value = min_value
         self.max_value = max_value
 
-    @Server._procedure("Hi")
+    @Server._procedure('Hi')
     def greet(self):
-        return "Hi"
+        return 'Hi'
 
-    @Server._procedure("GetRandom")
+    @Server._procedure('GetRandom')
     def get_random(self):
         return self.random.randint(self.min_value, self.max_value)
 
-    @Server._procedure("Shutdown")
+    @Server._procedure('Shutdown')
     def shutdown(self):
         raise ServerTermination()
