@@ -17,7 +17,7 @@ class Controller(
 
     /**
      * Run the business logic.
-     * 
+     *
      * @return A boolean indicating whether the server behaved as expected.
      */
     suspend fun run(): Boolean {
@@ -77,9 +77,10 @@ suspend fun main(args: Array<String>) {
     val serverPath = args[0]
 
     try {
-        var success = Client.runProcess(serverPath) { client ->
-            Controller(client).run()
-        }
+        var success =
+            Client.runProcess(serverPath) { client ->
+                Controller(client).run()
+            }
         if (!success) {
             println("Server behaved unexpected")
             exitProcess(1)
