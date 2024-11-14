@@ -45,8 +45,7 @@ class Client(
      *
      * @param T The return value of the block.
      */
-    @OptIn(DelicateCoroutinesApi::class)
-    suspend fun <T> runProcess(block: suspend () -> T): T {
+    suspend fun <T> runProcess(block: suspend CoroutineScope.() -> T): T = coroutineScope {
         val processBuilder = ProcessBuilder(serverPath)
         if (logger.isDebugEnabled()) {
             processBuilder.command(processBuilder.command() + "--log-level=DEBUG")
@@ -57,8 +56,7 @@ class Client(
             }
         if (logger.isDebugEnabled()) {
             // manually forward stderr without buffering to synchronize with our own logs
-            // GlobalScope is acceptable here because the lifetime is limited to that of the process
-            GlobalScope.launch {
+            launch {
                 process!!.errorStream.reader().use { reader ->
                     reader.forEachLine { logger.debug { "server: $it" } }
                 }
@@ -72,7 +70,7 @@ class Client(
                     PrintWriter(process!!.outputStream, true).use { thisWriter ->
                         writer = thisWriter
                         try {
-                            return block()
+                            this@coroutineScope.block()
                         } finally {
                             writer = null
                         }
