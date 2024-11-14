@@ -45,51 +45,52 @@ class Client(
      *
      * @param T The return value of the block.
      */
-    suspend fun <T> runProcess(block: suspend CoroutineScope.() -> T): T = coroutineScope {
-        val processBuilder = ProcessBuilder(serverPath)
-        if (logger.isDebugEnabled()) {
-            processBuilder.command(processBuilder.command() + "--log-level=DEBUG")
-        }
-        process =
-            withContext(Dispatchers.IO) {
-                processBuilder.start()
+    suspend fun <T> runProcess(block: suspend CoroutineScope.() -> T): T =
+        coroutineScope {
+            val processBuilder = ProcessBuilder(serverPath)
+            if (logger.isDebugEnabled()) {
+                processBuilder.command(processBuilder.command() + "--log-level=DEBUG")
             }
-        if (logger.isDebugEnabled()) {
-            // manually forward stderr without buffering to synchronize with our own logs
-            launch {
-                process!!.errorStream.reader().use { reader ->
-                    reader.forEachLine { logger.debug { "server: $it" } }
+            process =
+                withContext(Dispatchers.IO) {
+                    processBuilder.start()
                 }
-            }
-        }
-
-        try {
-            process!!.inputStream.bufferedReader().use { thisReader ->
-                reader = thisReader
-                try {
-                    PrintWriter(process!!.outputStream, true).use { thisWriter ->
-                        writer = thisWriter
-                        try {
-                            this@coroutineScope.block()
-                        } finally {
-                            writer = null
-                        }
+            if (logger.isDebugEnabled()) {
+                // manually forward stderr without buffering to synchronize with our own logs
+                launch {
+                    process!!.errorStream.reader().use { reader ->
+                        reader.forEachLine { logger.debug { "server: $it" } }
                     }
-                } finally {
-                    reader = null
                 }
             }
-        } finally {
-            withContext(Dispatchers.IO) {
-                process!!.waitFor()
+
+            try {
+                process!!.inputStream.bufferedReader().use { thisReader ->
+                    reader = thisReader
+                    try {
+                        PrintWriter(process!!.outputStream, true).use { thisWriter ->
+                            writer = thisWriter
+                            try {
+                                this@coroutineScope.block()
+                            } finally {
+                                writer = null
+                            }
+                        }
+                    } finally {
+                        reader = null
+                    }
+                }
+            } finally {
+                withContext(Dispatchers.IO) {
+                    process!!.waitFor()
+                }
+                if (process!!.isAlive) {
+                    logger.warn { "Server should have exited, killing it now" }
+                    process!!.destroy()
+                }
+                process = null
             }
-            if (process!!.isAlive) {
-                logger.warn { "Server should have exited, killing it now" }
-                process!!.destroy()
-            }
-            process = null
         }
-    }
 
     /**
      * Sends a command to the server without any timeout.
